@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Case-Handling Capacity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#FBFAF7; --card:#FFFFFF; --ink:#15181E; --muted:#6B7077; --faint:#9AA0A6;
+    --hair:#ECEAE3; --hair-strong:#D9D6CC;
+    --case:#0D7C72; --phone:#C2773B;
+    --focus:#0D7C72; --rowhover:#FAF9F5;
+    --shadow:0 1px 2px rgba(21,24,30,.04), 0 14px 36px -20px rgba(21,24,30,.22);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper); color:var(--ink);
+    font-family:"Inter",system-ui,-apple-system,sans-serif;
+    -webkit-font-smoothing:antialiased; line-height:1.45;
+    padding:34px 20px 70px;
+  }
+  .wrap{width:100%;max-width:860px;margin:0 auto;}
+  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:0 0 10px;}
+  h1{font-family:"Fraunces",serif;font-weight:500;font-size:31px;line-height:1.1;letter-spacing:-.01em;margin:0 0 6px;}
+  .sub{color:var(--muted);font-size:13.5px;margin:0 0 24px;max-width:62ch;}
+
+  .controls{
+    display:flex;flex-wrap:wrap;align-items:flex-end;gap:22px;
+    padding:16px 20px;background:var(--card);border:1px solid var(--hair);
+    border-radius:14px 14px 0 0;border-bottom:none;
+  }
+  .ctl{display:flex;flex-direction:column;gap:6px;}
+  .ctl label{font-size:11.5px;font-weight:500;color:var(--muted);letter-spacing:.02em;}
+  .ctl input[type=number]{
+    width:90px;font-family:"IBM Plex Mono",monospace;font-size:14px;color:var(--ink);
+    background:var(--card);border:1px solid var(--hair-strong);border-radius:9px;padding:9px 11px;text-align:right;
+  }
+  .ctl input:focus{outline:none;border-color:var(--focus);box-shadow:0 0 0 3px rgba(13,124,114,.14);}
+  input[type=number]{-moz-appearance:textfield;}
+  input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
+
+  .phone-ctl{display:flex;align-items:flex-end;gap:14px;margin-left:auto;}
+  .switch{display:inline-flex;align-items:center;gap:9px;cursor:pointer;user-select:none;font-size:12.5px;color:var(--ink);font-weight:500;}
+  .switch input{position:absolute;opacity:0;width:0;height:0;}
+  .track{width:40px;height:23px;border-radius:12px;background:var(--hair-strong);position:relative;transition:background .15s ease;flex-shrink:0;}
+  .track::after{content:"";position:absolute;top:2px;left:2px;width:19px;height:19px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.2);transition:transform .15s ease;}
+  .switch input:checked + .track{background:var(--phone);}
+  .switch input:checked + .track::after{transform:translateX(17px);}
+  .switch input:focus-visible + .track{box-shadow:0 0 0 3px rgba(194,119,59,.25);}
+  .punit{display:flex;border:1px solid var(--hair-strong);border-radius:9px;overflow:hidden;}
+  .punit button{font-family:"IBM Plex Mono",monospace;font-size:11px;border:none;background:var(--card);color:var(--muted);padding:7px 11px;cursor:pointer;}
+  .punit button + button{border-left:1px solid var(--hair);}
+  .punit button.on{background:var(--phone);color:#fff;}
+  .punit.disabled{opacity:.4;pointer-events:none;}
+
+  .tablecard{background:var(--card);border:1px solid var(--hair);border-radius:0 0 14px 14px;box-shadow:var(--shadow);overflow:hidden;}
+  .scroll{overflow-x:auto;}
+  table{width:100%;border-collapse:collapse;min-width:700px;}
+  thead th{
+    font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;
+    color:var(--faint);font-weight:500;text-align:right;padding:14px 14px 11px;border-bottom:1px solid var(--hair-strong);white-space:nowrap;
+  }
+  thead th.area{text-align:left;}
+  thead th.res{color:var(--case);}
+  tbody td{padding:11px 14px;border-bottom:1px solid var(--hair);text-align:right;font-variant-numeric:tabular-nums;}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:hover{background:var(--rowhover);}
+  td.area{text-align:left;font-weight:500;font-size:14px;white-space:nowrap;}
+  td.ctx{color:var(--muted);font-family:"IBM Plex Mono",monospace;font-size:12.5px;}
+  .cell-in{
+    width:72px;font-family:"IBM Plex Mono",monospace;font-size:13px;text-align:right;color:var(--ink);
+    background:var(--paper);border:1px solid var(--hair-strong);border-radius:8px;padding:7px 9px;
+  }
+  .cell-in:focus{outline:none;border-color:var(--focus);box-shadow:0 0 0 3px rgba(13,124,114,.14);background:#fff;}
+  .cell-in.phone:focus{border-color:var(--phone);box-shadow:0 0 0 3px rgba(194,119,59,.14);}
+
+  td.res{font-family:"IBM Plex Mono",monospace;font-size:13.5px;color:var(--case);font-weight:500;}
+  td.res .dash{color:var(--faint);font-weight:400;}
+  .util{display:flex;align-items:center;justify-content:flex-end;gap:9px;}
+  .util .pct{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--ink);min-width:46px;text-align:right;}
+  .ubar{width:54px;height:7px;border-radius:4px;background:#EFEDE6;overflow:hidden;flex-shrink:0;}
+  .ubar > i{display:block;height:100%;background:var(--case);border-radius:4px;transition:width .35s cubic-bezier(.4,0,.2,1);}
+
+  .phone-col{display:none;}
+  .show-phone .phone-col{display:table-cell;}
+
+  .lowvol .area::after{content:" ·";color:var(--phone);}
+
+  .legend{display:flex;gap:18px;flex-wrap:wrap;margin:16px 2px 0;font-size:11.5px;color:var(--muted);}
+  .legend b{color:var(--ink);font-weight:500;}
+  .foot{font-size:11px;color:var(--faint);margin:14px 2px 0;line-height:1.55;max-width:82ch;}
+  .foot b{color:var(--muted);font-weight:500;}
+
+  @media (max-width:560px){
+    h1{font-size:25px;}
+    .phone-ctl{margin-left:0;width:100%;}
+    .controls{gap:16px;}
+  }
+  @media (prefers-reduced-motion:reduce){.ubar>i{transition:none;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Quarterly case report · all sales areas</p>
+  <h1>Case-handling capacity</h1>
+  <p class="sub">Case count and average handle time per sales area, with the average hours each employee spends handling cases per working day and what share of their shift that takes.</p>
+
+  <div class="controls">
+    <div class="ctl">
+      <label for="days">Working days / quarter</label>
+      <input id="days" type="number" min="1" step="1" value="65" inputmode="numeric" />
+    </div>
+    <div class="phone-ctl">
+      <label class="switch">
+        <input type="checkbox" id="phoneToggle" />
+        <span class="track"></span>
+        Add telephone time
+      </label>
+      <div class="punit disabled" id="punit" aria-label="Telephone unit">
+        <button type="button" data-pu="hours" class="on">hrs</button>
+        <button type="button" data-pu="minutes">min</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="tablecard">
+    <div class="scroll">
+      <table id="tbl">
+        <thead>
+          <tr>
+            <th class="area">Sales area</th>
+            <th>Cases</th>
+            <th>Avg&nbsp;/&nbsp;case</th>
+            <th>Employees</th>
+            <th>Shift&nbsp;hr</th>
+            <th class="phone-col">Phone&nbsp;hr</th>
+            <th class="res">Hrs / emp&nbsp;·&nbsp;day</th>
+            <th class="res">% of shift</th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+          <tr data-avg="0.55" data-count="196">
+            <td class="area">CEE</td><td class="ctx">196</td><td class="ctx">0.55 hr</td>
+            <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
+            <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
+            <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
+            <td class="res hrs"><span class="dash">—</span></td>
+            <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
+          </tr>
+          <tr data-avg="0.21" data-count="284">
+            <td class="area">DACH</td><td class="ctx">284</td><td class="ctx">0.21 hr</td>
+            <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
+            <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
+            <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
+            <td class="res hrs"><span class="dash">—</span></td>
+            <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
+          </tr>
+          <tr data-avg="0.07" data-count="2250">
+            <td class="area">FRABEL</td><td class="ctx">2,250</td><td class="ctx">0.07 hr</td>
+            <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
+            <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
+            <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
+            <td class="res hrs"><span class="dash">—</span></td>
+            <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
+          </tr>
+          <tr data-avg="0.03" data-count="255">
+            <td class="area">JAPAN</td><td class="ctx">255</td><td class="ctx">0.03 hr</td>
+            <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
+            <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
+            <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
+            <td class="res hrs"><span class="dash">—</span></td>
+            <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
+          </tr>
+          <tr data-avg="0.27" data-count="298">
+            <td class="area">Mediterranean</td><td class="ctx">298</td><td class="ctx">0.27 hr</td>
+            <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
+            <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
+            <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
+            <td class="res hrs"><span class="dash">—</span></td>
+            <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
+          </tr>
+          <tr data-avg="0.04" data-count="1557">
+            <td class="area">NA-Central</td><td class="ctx">1,557</td><td class="ctx">0.04 hr</td>
+            <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
+            <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
+            <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
+            <td class="res hrs"><span class="dash">—</span></td>
+            <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
+          </tr>
+          <tr data-avg="0.10" data-count="248">
+            <td class="area">SEA</td><td class="ctx">248</td><td class="ctx">0.10 hr</td>
+            <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
+            <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
+            <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
+            <td class="res hrs"><span class="dash">—</span></td>
+            <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
+          </tr>
+          <tr data-avg="11.42" data-count="1" class="lowvol">
+            <td class="area">Turkey</td><td class="ctx">1</td><td class="ctx">11.42 hr</td>
+            <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
+            <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
+            <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
+            <td class="res hrs"><span class="dash">—</span></td>
+            <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
+          </tr>
+          <tr data-avg="0.41" data-count="620">
+            <td class="area">UKI</td><td class="ctx">620</td><td class="ctx">0.41 hr</td>
+            <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
+            <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
+            <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
+            <td class="res hrs"><span class="dash">—</span></td>
+            <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="legend">
+    <span><b>Hrs / emp · day</b> = cases × avg ÷ working days ÷ employees</span>
+    <span><b>% of shift</b> = that load ÷ the region's shift length</span>
+  </div>
+  <p class="foot">
+    Source: <b>case count</b> and <b>average handle time</b> per sales area, from the quarterly report; average time is in <b>hours</b>.
+    Shift defaults to <b>8h</b> per region — set the real length where it differs. Telephone time, when switched on, is the region's <b>quarterly total</b> talk time and adds on top of case time.
+    Regions marked <b style="color:#C2773B">·</b> have very low case volume, so per-employee figures there are not meaningful.
+  </p>
+</div>
+
+<script>
+(function(){
+  var $ = function(id){return document.getElementById(id);};
+  var state = {phoneOn:false, phoneUnit:"hours"};
+  var tbody = $("tbody");
+
+  function fmtLoad(h){
+    if(!isFinite(h)||h<=0) return null;
+    if(h < 1){ return Math.round(h*60) + " min"; }
+    return (Math.round(h*100)/100) + " hr";
+  }
+
+  function recompute(){
+    var days = parseFloat($("days").value);
+    var validDays = !isNaN(days) && days>0;
+    var pf = state.phoneUnit==="minutes" ? 1/60 : 1;
+
+    Array.prototype.forEach.call(tbody.children, function(tr){
+      var avg = parseFloat(tr.getAttribute("data-avg"));
+      var count = parseFloat(tr.getAttribute("data-count"));
+      var emp = parseFloat(tr.querySelector(".emp").value);
+      var shift = parseFloat(tr.querySelector(".shift").value);
+      var phoneRaw = parseFloat(tr.querySelector(".phone").value);
+      var phoneH = (state.phoneOn && !isNaN(phoneRaw) && phoneRaw>0) ? phoneRaw*pf : 0;
+
+      var totalH = avg*count + phoneH;
+      var hrsCell = tr.querySelector(".hrs");
+      var pctCell = tr.querySelector(".pct");
+      var ubar = tr.querySelector(".ubar > i");
+
+      if(validDays && !isNaN(emp) && emp>0){
+        var perEmpDay = (totalH/days)/emp;
+        var s = fmtLoad(perEmpDay);
+        hrsCell.innerHTML = s ? s : '<span class="dash">0</span>';
+        if(!isNaN(shift) && shift>0){
+          var pct = perEmpDay/shift*100;
+          pctCell.textContent = (Math.round(pct*10)/10)+"%";
+          ubar.style.width = Math.max(0,Math.min(100,pct))+"%";
+        } else { pctCell.textContent="—"; ubar.style.width="0"; }
+      } else {
+        hrsCell.innerHTML = '<span class="dash">—</span>';
+        pctCell.textContent="—"; ubar.style.width="0";
+      }
+    });
+  }
+
+  $("days").addEventListener("input", recompute);
+  tbody.addEventListener("input", recompute);
+  $("phoneToggle").addEventListener("change", function(){
+    state.phoneOn = this.checked;
+    $("tbl").classList.toggle("show-phone", state.phoneOn);
+    $("punit").classList.toggle("disabled", !state.phoneOn);
+    recompute();
+  });
+  Array.prototype.forEach.call($("punit").querySelectorAll("button"), function(b){
+    b.addEventListener("click", function(){
+      if(!state.phoneOn) return;
+      state.phoneUnit = b.getAttribute("data-pu");
+      $("punit").querySelectorAll("button").forEach(function(x){x.classList.remove("on");});
+      b.classList.add("on"); recompute();
+    });
+  });
+
+  recompute();
+})();
+</script>
+</body>
+</html>
