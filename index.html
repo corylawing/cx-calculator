@@ -107,7 +107,7 @@
 <div class="wrap">
   <p class="eyebrow">Quarterly case report · all sales areas</p>
   <h1>Case-handling capacity</h1>
-  <p class="sub">Case count and average handle time per sales area, with the average hours each employee spends handling cases per working day and what share of their shift that takes.</p>
+  <p class="sub">Case count and average handle time per sales area, with the average hours each employee spends handling cases per working day and what share of their shift that takes. Case counts start from the report and can be edited.</p>
 
   <div class="controls">
     <div class="ctl">
@@ -143,72 +143,90 @@
           </tr>
         </thead>
         <tbody id="tbody">
-          <tr data-avg="0.55" data-count="196">
-            <td class="area">CEE</td><td class="ctx">196</td><td class="ctx">0.55 hr</td>
+          <tr data-avg="0.55">
+            <td class="area">CEE</td>
+            <td><input class="cell-in count" type="number" min="0" step="1" value="196" inputmode="numeric"></td>
+            <td class="ctx">0.55 hr</td>
             <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
             <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
             <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
             <td class="res hrs"><span class="dash">—</span></td>
             <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
           </tr>
-          <tr data-avg="0.21" data-count="284">
-            <td class="area">DACH</td><td class="ctx">284</td><td class="ctx">0.21 hr</td>
+          <tr data-avg="0.21">
+            <td class="area">DACH</td>
+            <td><input class="cell-in count" type="number" min="0" step="1" value="284" inputmode="numeric"></td>
+            <td class="ctx">0.21 hr</td>
             <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
             <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
             <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
             <td class="res hrs"><span class="dash">—</span></td>
             <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
           </tr>
-          <tr data-avg="0.07" data-count="2250">
-            <td class="area">FRABEL</td><td class="ctx">2,250</td><td class="ctx">0.07 hr</td>
+          <tr data-avg="0.07">
+            <td class="area">FRABEL</td>
+            <td><input class="cell-in count" type="number" min="0" step="1" value="2250" inputmode="numeric"></td>
+            <td class="ctx">0.07 hr</td>
             <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
             <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
             <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
             <td class="res hrs"><span class="dash">—</span></td>
             <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
           </tr>
-          <tr data-avg="0.03" data-count="255">
-            <td class="area">JAPAN</td><td class="ctx">255</td><td class="ctx">0.03 hr</td>
+          <tr data-avg="0.03">
+            <td class="area">JAPAN</td>
+            <td><input class="cell-in count" type="number" min="0" step="1" value="255" inputmode="numeric"></td>
+            <td class="ctx">0.03 hr</td>
             <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
             <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
             <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
             <td class="res hrs"><span class="dash">—</span></td>
             <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
           </tr>
-          <tr data-avg="0.27" data-count="298">
-            <td class="area">Mediterranean</td><td class="ctx">298</td><td class="ctx">0.27 hr</td>
+          <tr data-avg="0.27">
+            <td class="area">Mediterranean</td>
+            <td><input class="cell-in count" type="number" min="0" step="1" value="298" inputmode="numeric"></td>
+            <td class="ctx">0.27 hr</td>
             <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
             <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
             <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
             <td class="res hrs"><span class="dash">—</span></td>
             <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
           </tr>
-          <tr data-avg="0.04" data-count="1557">
-            <td class="area">NA-Central</td><td class="ctx">1,557</td><td class="ctx">0.04 hr</td>
+          <tr data-avg="0.04">
+            <td class="area">NA-Central</td>
+            <td><input class="cell-in count" type="number" min="0" step="1" value="1557" inputmode="numeric"></td>
+            <td class="ctx">0.04 hr</td>
             <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
             <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
             <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
             <td class="res hrs"><span class="dash">—</span></td>
             <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
           </tr>
-          <tr data-avg="0.10" data-count="248">
-            <td class="area">SEA</td><td class="ctx">248</td><td class="ctx">0.10 hr</td>
+          <tr data-avg="0.10">
+            <td class="area">SEA</td>
+            <td><input class="cell-in count" type="number" min="0" step="1" value="248" inputmode="numeric"></td>
+            <td class="ctx">0.10 hr</td>
             <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
             <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
             <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
             <td class="res hrs"><span class="dash">—</span></td>
             <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
           </tr>
-          <tr data-avg="11.42" data-count="1" class="lowvol">
-            <td class="area">Turkey</td><td class="ctx">1</td><td class="ctx">11.42 hr</td>
+          <tr data-avg="11.42" class="lowvol">
+            <td class="area">Turkey</td>
+            <td><input class="cell-in count" type="number" min="0" step="1" value="1" inputmode="numeric"></td>
+            <td class="ctx">11.42 hr</td>
             <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
             <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
             <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
             <td class="res hrs"><span class="dash">—</span></td>
             <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
           </tr>
-          <tr data-avg="0.41" data-count="620">
-            <td class="area">UKI</td><td class="ctx">620</td><td class="ctx">0.41 hr</td>
+          <tr data-avg="0.41">
+            <td class="area">UKI</td>
+            <td><input class="cell-in count" type="number" min="0" step="1" value="620" inputmode="numeric"></td>
+            <td class="ctx">0.41 hr</td>
             <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
             <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
             <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
@@ -225,7 +243,7 @@
     <span><b>% of shift</b> = that load ÷ the region's shift length</span>
   </div>
   <p class="foot">
-    Source: <b>case count</b> and <b>average handle time</b> per sales area, from the quarterly report; average time is in <b>hours</b>.
+    Source: <b>case count</b> and <b>average handle time</b> per sales area, from the quarterly report; average time is in <b>hours</b>. Case counts are editable and prefilled from the report.
     Shift defaults to <b>8h</b> per region — set the real length where it differs. Telephone time, when switched on, is the region's <b>quarterly total</b> talk time and adds on top of case time.
     Regions marked <b style="color:#C2773B">·</b> have very low case volume, so per-employee figures there are not meaningful.
   </p>
@@ -250,18 +268,20 @@
 
     Array.prototype.forEach.call(tbody.children, function(tr){
       var avg = parseFloat(tr.getAttribute("data-avg"));
-      var count = parseFloat(tr.getAttribute("data-count"));
+      var count = parseFloat(tr.querySelector(".count").value);
       var emp = parseFloat(tr.querySelector(".emp").value);
       var shift = parseFloat(tr.querySelector(".shift").value);
       var phoneRaw = parseFloat(tr.querySelector(".phone").value);
       var phoneH = (state.phoneOn && !isNaN(phoneRaw) && phoneRaw>0) ? phoneRaw*pf : 0;
 
-      var totalH = avg*count + phoneH;
       var hrsCell = tr.querySelector(".hrs");
       var pctCell = tr.querySelector(".pct");
       var ubar = tr.querySelector(".ubar > i");
 
-      if(validDays && !isNaN(emp) && emp>0){
+      var validCount = !isNaN(count) && count>=0;
+      var totalH = (validCount ? avg*count : 0) + phoneH;
+
+      if(validDays && validCount && !isNaN(emp) && emp>0){
         var perEmpDay = (totalH/days)/emp;
         var s = fmtLoad(perEmpDay);
         hrsCell.innerHTML = s ? s : '<span class="dash">0</span>';
