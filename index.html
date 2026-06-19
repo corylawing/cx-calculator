@@ -29,6 +29,8 @@
   .sub{color:var(--muted);font-size:13.5px;margin:0 0 10px;max-width:62ch;}
   .stamp{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);margin:0 0 22px;letter-spacing:.02em;display:inline-flex;align-items:center;gap:7px;}
   .stamp::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--case);display:inline-block;}
+  .nojs{background:#FBEEE3;border:1px solid #E7C9AE;color:#8A4B1F;padding:12px 15px;border-radius:11px;font-size:12.5px;line-height:1.5;margin:0 0 20px;}
+  .nojs b{font-weight:600;}
 
   .controls{
     display:flex;flex-wrap:wrap;align-items:flex-end;gap:22px;
@@ -114,6 +116,10 @@
   <p class="sub">Case count and average handle time per sales area, with the average hours each employee spends handling cases per working day and what share of their shift that takes. Case counts and average times are editable.</p>
   <p class="stamp">Cases &amp; avg handle time — snapshot as of 19 June 2027</p>
 
+  <noscript>
+    <div class="nojs"><b>This calculator needs JavaScript to do the math.</b> The data and input boxes show fine, but results won't update in a preview that blocks scripts. Open the file in a web browser (Chrome, Safari, Edge) and the numbers will update as you type.</div>
+  </noscript>
+
   <div class="controls">
     <div class="ctl">
       <label for="days">Working days / quarter</label>
@@ -150,8 +156,8 @@
         <tbody id="tbody">
           <tr>
             <td class="area">CEE</td>
-            <td><input class="cell-in count" type="number" min="0" step="1" value="196" inputmode="numeric"></td>
-            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="0.55" inputmode="decimal"><span class="u">hr</span></span></td>
+            <td><input class="cell-in count" type="number" min="0" step="1" value="965" inputmode="numeric"></td>
+            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="0.41" inputmode="decimal"><span class="u">hr</span></span></td>
             <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
             <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
             <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
@@ -160,8 +166,8 @@
           </tr>
           <tr>
             <td class="area">DACH</td>
-            <td><input class="cell-in count" type="number" min="0" step="1" value="284" inputmode="numeric"></td>
-            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="0.21" inputmode="decimal"><span class="u">hr</span></span></td>
+            <td><input class="cell-in count" type="number" min="0" step="1" value="890" inputmode="numeric"></td>
+            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="0.29" inputmode="decimal"><span class="u">hr</span></span></td>
             <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
             <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
             <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
@@ -170,7 +176,7 @@
           </tr>
           <tr>
             <td class="area">FRABEL</td>
-            <td><input class="cell-in count" type="number" min="0" step="1" value="2250" inputmode="numeric"></td>
+            <td><input class="cell-in count" type="number" min="0" step="1" value="10911" inputmode="numeric"></td>
             <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="0.07" inputmode="decimal"><span class="u">hr</span></span></td>
             <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
             <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
@@ -180,8 +186,8 @@
           </tr>
           <tr>
             <td class="area">JAPAN</td>
-            <td><input class="cell-in count" type="number" min="0" step="1" value="255" inputmode="numeric"></td>
-            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="0.03" inputmode="decimal"><span class="u">hr</span></span></td>
+            <td><input class="cell-in count" type="number" min="0" step="1" value="911" inputmode="numeric"></td>
+            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="0.15" inputmode="decimal"><span class="u">hr</span></span></td>
             <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
             <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
             <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
@@ -190,8 +196,8 @@
           </tr>
           <tr>
             <td class="area">Mediterranean</td>
-            <td><input class="cell-in count" type="number" min="0" step="1" value="298" inputmode="numeric"></td>
-            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="0.27" inputmode="decimal"><span class="u">hr</span></span></td>
+            <td><input class="cell-in count" type="number" min="0" step="1" value="1656" inputmode="numeric"></td>
+            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="0.43" inputmode="decimal"><span class="u">hr</span></span></td>
             <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
             <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
             <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
@@ -200,8 +206,8 @@
           </tr>
           <tr>
             <td class="area">AMERICAS</td>
-            <td><input class="cell-in count" type="number" min="0" step="1" value="1557" inputmode="numeric"></td>
-            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="0.04" inputmode="decimal"><span class="u">hr</span></span></td>
+            <td><input class="cell-in count" type="number" min="0" step="1" value="6189" inputmode="numeric"></td>
+            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="0.08" inputmode="decimal"><span class="u">hr</span></span></td>
             <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
             <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
             <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
@@ -210,8 +216,8 @@
           </tr>
           <tr>
             <td class="area">SEA</td>
-            <td><input class="cell-in count" type="number" min="0" step="1" value="248" inputmode="numeric"></td>
-            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="0.10" inputmode="decimal"><span class="u">hr</span></span></td>
+            <td><input class="cell-in count" type="number" min="0" step="1" value="823" inputmode="numeric"></td>
+            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="0.23" inputmode="decimal"><span class="u">hr</span></span></td>
             <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
             <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
             <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
@@ -220,8 +226,8 @@
           </tr>
           <tr class="lowvol">
             <td class="area">Turkey</td>
-            <td><input class="cell-in count" type="number" min="0" step="1" value="1" inputmode="numeric"></td>
-            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="11.42" inputmode="decimal"><span class="u">hr</span></span></td>
+            <td><input class="cell-in count" type="number" min="0" step="1" value="2" inputmode="numeric"></td>
+            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="19.25" inputmode="decimal"><span class="u">hr</span></span></td>
             <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
             <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
             <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
@@ -230,8 +236,8 @@
           </tr>
           <tr>
             <td class="area">UKI</td>
-            <td><input class="cell-in count" type="number" min="0" step="1" value="620" inputmode="numeric"></td>
-            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="0.41" inputmode="decimal"><span class="u">hr</span></span></td>
+            <td><input class="cell-in count" type="number" min="0" step="1" value="2733" inputmode="numeric"></td>
+            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="0.25" inputmode="decimal"><span class="u">hr</span></span></td>
             <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
             <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
             <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
