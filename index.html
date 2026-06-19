@@ -26,7 +26,9 @@
   .wrap{width:100%;max-width:860px;margin:0 auto;}
   .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:0 0 10px;}
   h1{font-family:"Fraunces",serif;font-weight:500;font-size:31px;line-height:1.1;letter-spacing:-.01em;margin:0 0 6px;}
-  .sub{color:var(--muted);font-size:13.5px;margin:0 0 24px;max-width:62ch;}
+  .sub{color:var(--muted);font-size:13.5px;margin:0 0 10px;max-width:62ch;}
+  .stamp{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);margin:0 0 22px;letter-spacing:.02em;display:inline-flex;align-items:center;gap:7px;}
+  .stamp::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--case);display:inline-block;}
 
   .controls{
     display:flex;flex-wrap:wrap;align-items:flex-end;gap:22px;
@@ -59,7 +61,7 @@
 
   .tablecard{background:var(--card);border:1px solid var(--hair);border-radius:0 0 14px 14px;box-shadow:var(--shadow);overflow:hidden;}
   .scroll{overflow-x:auto;}
-  table{width:100%;border-collapse:collapse;min-width:700px;}
+  table{width:100%;border-collapse:collapse;min-width:740px;}
   thead th{
     font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;
     color:var(--faint);font-weight:500;text-align:right;padding:14px 14px 11px;border-bottom:1px solid var(--hair-strong);white-space:nowrap;
@@ -70,13 +72,15 @@
   tbody tr:last-child td{border-bottom:none;}
   tbody tr:hover{background:var(--rowhover);}
   td.area{text-align:left;font-weight:500;font-size:14px;white-space:nowrap;}
-  td.ctx{color:var(--muted);font-family:"IBM Plex Mono",monospace;font-size:12.5px;}
   .cell-in{
     width:72px;font-family:"IBM Plex Mono",monospace;font-size:13px;text-align:right;color:var(--ink);
     background:var(--paper);border:1px solid var(--hair-strong);border-radius:8px;padding:7px 9px;
   }
   .cell-in:focus{outline:none;border-color:var(--focus);box-shadow:0 0 0 3px rgba(13,124,114,.14);background:#fff;}
   .cell-in.phone:focus{border-color:var(--phone);box-shadow:0 0 0 3px rgba(194,119,59,.14);}
+  .avgwrap{display:inline-flex;align-items:center;gap:5px;justify-content:flex-end;}
+  .avgwrap .cell-in{width:60px;}
+  .avgwrap .u{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--faint);}
 
   td.res{font-family:"IBM Plex Mono",monospace;font-size:13.5px;color:var(--case);font-weight:500;}
   td.res .dash{color:var(--faint);font-weight:400;}
@@ -107,12 +111,13 @@
 <div class="wrap">
   <p class="eyebrow">Quarterly case report · all sales areas</p>
   <h1>Case-handling capacity</h1>
-  <p class="sub">Case count and average handle time per sales area, with the average hours each employee spends handling cases per working day and what share of their shift that takes. Case counts start from the report and can be edited.</p>
+  <p class="sub">Case count and average handle time per sales area, with the average hours each employee spends handling cases per working day and what share of their shift that takes. Case counts and average times are editable.</p>
+  <p class="stamp">Cases &amp; avg handle time — snapshot as of 19 June 2027</p>
 
   <div class="controls">
     <div class="ctl">
       <label for="days">Working days / quarter</label>
-      <input id="days" type="number" min="1" step="1" value="65" inputmode="numeric" />
+      <input id="days" type="number" min="1" step="1" value="57" inputmode="numeric" />
     </div>
     <div class="phone-ctl">
       <label class="switch">
@@ -143,90 +148,90 @@
           </tr>
         </thead>
         <tbody id="tbody">
-          <tr data-avg="0.55">
+          <tr>
             <td class="area">CEE</td>
             <td><input class="cell-in count" type="number" min="0" step="1" value="196" inputmode="numeric"></td>
-            <td class="ctx">0.55 hr</td>
+            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="0.55" inputmode="decimal"><span class="u">hr</span></span></td>
             <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
             <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
             <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
             <td class="res hrs"><span class="dash">—</span></td>
             <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
           </tr>
-          <tr data-avg="0.21">
+          <tr>
             <td class="area">DACH</td>
             <td><input class="cell-in count" type="number" min="0" step="1" value="284" inputmode="numeric"></td>
-            <td class="ctx">0.21 hr</td>
+            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="0.21" inputmode="decimal"><span class="u">hr</span></span></td>
             <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
             <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
             <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
             <td class="res hrs"><span class="dash">—</span></td>
             <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
           </tr>
-          <tr data-avg="0.07">
+          <tr>
             <td class="area">FRABEL</td>
             <td><input class="cell-in count" type="number" min="0" step="1" value="2250" inputmode="numeric"></td>
-            <td class="ctx">0.07 hr</td>
+            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="0.07" inputmode="decimal"><span class="u">hr</span></span></td>
             <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
             <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
             <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
             <td class="res hrs"><span class="dash">—</span></td>
             <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
           </tr>
-          <tr data-avg="0.03">
+          <tr>
             <td class="area">JAPAN</td>
             <td><input class="cell-in count" type="number" min="0" step="1" value="255" inputmode="numeric"></td>
-            <td class="ctx">0.03 hr</td>
+            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="0.03" inputmode="decimal"><span class="u">hr</span></span></td>
             <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
             <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
             <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
             <td class="res hrs"><span class="dash">—</span></td>
             <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
           </tr>
-          <tr data-avg="0.27">
+          <tr>
             <td class="area">Mediterranean</td>
             <td><input class="cell-in count" type="number" min="0" step="1" value="298" inputmode="numeric"></td>
-            <td class="ctx">0.27 hr</td>
+            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="0.27" inputmode="decimal"><span class="u">hr</span></span></td>
             <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
             <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
             <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
             <td class="res hrs"><span class="dash">—</span></td>
             <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
           </tr>
-          <tr data-avg="0.04">
-            <td class="area">NA-Central</td>
+          <tr>
+            <td class="area">AMERICAS</td>
             <td><input class="cell-in count" type="number" min="0" step="1" value="1557" inputmode="numeric"></td>
-            <td class="ctx">0.04 hr</td>
+            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="0.04" inputmode="decimal"><span class="u">hr</span></span></td>
             <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
             <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
             <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
             <td class="res hrs"><span class="dash">—</span></td>
             <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
           </tr>
-          <tr data-avg="0.10">
+          <tr>
             <td class="area">SEA</td>
             <td><input class="cell-in count" type="number" min="0" step="1" value="248" inputmode="numeric"></td>
-            <td class="ctx">0.10 hr</td>
+            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="0.10" inputmode="decimal"><span class="u">hr</span></span></td>
             <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
             <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
             <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
             <td class="res hrs"><span class="dash">—</span></td>
             <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
           </tr>
-          <tr data-avg="11.42" class="lowvol">
+          <tr class="lowvol">
             <td class="area">Turkey</td>
             <td><input class="cell-in count" type="number" min="0" step="1" value="1" inputmode="numeric"></td>
-            <td class="ctx">11.42 hr</td>
+            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="11.42" inputmode="decimal"><span class="u">hr</span></span></td>
             <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
             <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
             <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
             <td class="res hrs"><span class="dash">—</span></td>
             <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
           </tr>
-          <tr data-avg="0.41">
+          <tr>
             <td class="area">UKI</td>
             <td><input class="cell-in count" type="number" min="0" step="1" value="620" inputmode="numeric"></td>
-            <td class="ctx">0.41 hr</td>
+            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="0.41" inputmode="decimal"><span class="u">hr</span></span></td>
             <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
             <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
             <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
@@ -243,7 +248,7 @@
     <span><b>% of shift</b> = that load ÷ the region's shift length</span>
   </div>
   <p class="foot">
-    Source: <b>case count</b> and <b>average handle time</b> per sales area, from the quarterly report; average time is in <b>hours</b>. Case counts are editable and prefilled from the report.
+    Source: <b>case count</b> and <b>average handle time</b> per sales area, a snapshot as of <b>19 June 2027</b>; average time is in <b>hours</b>. Both are editable and prefilled from the report.
     Shift defaults to <b>8h</b> per region — set the real length where it differs. Telephone time, when switched on, is the region's <b>quarterly total</b> talk time and adds on top of case time.
     Regions marked <b style="color:#C2773B">·</b> have very low case volume, so per-employee figures there are not meaningful.
   </p>
@@ -267,7 +272,7 @@
     var pf = state.phoneUnit==="minutes" ? 1/60 : 1;
 
     Array.prototype.forEach.call(tbody.children, function(tr){
-      var avg = parseFloat(tr.getAttribute("data-avg"));
+      var avg = parseFloat(tr.querySelector(".avg").value);
       var count = parseFloat(tr.querySelector(".count").value);
       var emp = parseFloat(tr.querySelector(".emp").value);
       var shift = parseFloat(tr.querySelector(".shift").value);
@@ -278,10 +283,10 @@
       var pctCell = tr.querySelector(".pct");
       var ubar = tr.querySelector(".ubar > i");
 
-      var validCount = !isNaN(count) && count>=0;
-      var totalH = (validCount ? avg*count : 0) + phoneH;
+      var validBase = !isNaN(avg) && avg>=0 && !isNaN(count) && count>=0;
+      var totalH = (validBase ? avg*count : 0) + phoneH;
 
-      if(validDays && validCount && !isNaN(emp) && emp>0){
+      if(validDays && validBase && !isNaN(emp) && emp>0){
         var perEmpDay = (totalH/days)/emp;
         var s = fmtLoad(perEmpDay);
         hrsCell.innerHTML = s ? s : '<span class="dash">0</span>';
