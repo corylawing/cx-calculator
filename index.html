@@ -3,328 +3,510 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Case-Handling Capacity</title>
+<title>Team Workload by Sales Area</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --paper:#FBFAF7; --card:#FFFFFF; --ink:#15181E; --muted:#6B7077; --faint:#9AA0A6;
-    --hair:#ECEAE3; --hair-strong:#D9D6CC;
-    --case:#0D7C72; --phone:#C2773B;
-    --focus:#0D7C72; --rowhover:#FAF9F5;
-    --shadow:0 1px 2px rgba(21,24,30,.04), 0 14px 36px -20px rgba(21,24,30,.22);
+    --paper:#F4F7F9; --card:#FFFFFF; --ink:#14232E; --muted:#5C6B73; --faint:#93A1A8;
+    --hair:#E6ECEE; --hair-strong:#D2DBDE;
+    --cases:#00A3AD; --out:#2E6CB5; --inn:#6A5ACD; --prod:#E0934A; --rest:#E9EEF0;
+    --over:#D24A3A;
+    --focus:#00A3AD; --rowhover:#F6FAFB;
+    --shadow:0 1px 2px rgba(20,35,46,.04), 0 16px 40px -24px rgba(20,35,46,.20);
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
-  body{
-    background:var(--paper); color:var(--ink);
-    font-family:"Inter",system-ui,-apple-system,sans-serif;
-    -webkit-font-smoothing:antialiased; line-height:1.45;
-    padding:34px 20px 70px;
-  }
-  .wrap{width:100%;max-width:860px;margin:0 auto;}
-  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:0 0 10px;}
-  h1{font-family:"Fraunces",serif;font-weight:500;font-size:31px;line-height:1.1;letter-spacing:-.01em;margin:0 0 6px;}
-  .sub{color:var(--muted);font-size:13.5px;margin:0 0 10px;max-width:62ch;}
+  body{background:var(--paper);color:var(--ink);font-family:"Inter",system-ui,-apple-system,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.45;padding:34px 20px 72px;}
+  .wrap{width:100%;max-width:980px;margin:0 auto;}
+  .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--cases);font-weight:500;margin:0 0 10px;}
+  h1{font-family:"Poppins",sans-serif;font-weight:600;font-size:32px;line-height:1.12;letter-spacing:-.02em;margin:0 0 8px;color:var(--ink);}
+  .sub{color:var(--muted);font-size:14px;margin:0 0 10px;max-width:70ch;}
   .stamp{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);margin:0 0 22px;letter-spacing:.02em;display:inline-flex;align-items:center;gap:7px;}
-  .stamp::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--case);display:inline-block;}
-  .nojs{background:#FBEEE3;border:1px solid #E7C9AE;color:#8A4B1F;padding:12px 15px;border-radius:11px;font-size:12.5px;line-height:1.5;margin:0 0 20px;}
+  .stamp::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--cases);display:inline-block;}
+
+  .nojs{background:#FBEEE3;border:1px solid #E7C9AE;color:#8A4B1F;padding:12px 15px;border-radius:12px;font-size:12.5px;line-height:1.5;margin:0 0 20px;}
   .nojs b{font-weight:600;}
 
-  .controls{
-    display:flex;flex-wrap:wrap;align-items:flex-end;gap:22px;
-    padding:16px 20px;background:var(--card);border:1px solid var(--hair);
-    border-radius:14px 14px 0 0;border-bottom:none;
-  }
+  .read{background:var(--card);border:1px solid var(--hair);border-radius:16px;padding:20px 22px;margin:0 0 18px;box-shadow:var(--shadow);border-top:3px solid var(--cases);}
+  .read h2{font-family:"Poppins",sans-serif;font-weight:600;font-size:17px;margin:0 0 10px;}
+  .read p{font-size:13px;color:var(--muted);margin:0 0 9px;max-width:78ch;}
+  .read p:last-child{margin-bottom:0;}
+  .read b{color:var(--ink);font-weight:600;}
+  .chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--ink);margin-right:14px;white-space:nowrap;}
+  .chip i{width:11px;height:11px;border-radius:3px;display:inline-block;}
+  .chips{margin-top:4px;}
+
+  .controls{display:flex;flex-wrap:wrap;align-items:flex-end;gap:14px 22px;padding:16px 22px;background:var(--card);border:1px solid var(--hair);border-radius:16px;box-shadow:var(--shadow);margin:0 0 22px;}
   .ctl{display:flex;flex-direction:column;gap:6px;}
-  .ctl label{font-size:11.5px;font-weight:500;color:var(--muted);letter-spacing:.02em;}
-  .ctl input[type=number]{
-    width:90px;font-family:"IBM Plex Mono",monospace;font-size:14px;color:var(--ink);
-    background:var(--card);border:1px solid var(--hair-strong);border-radius:9px;padding:9px 11px;text-align:right;
-  }
-  .ctl input:focus{outline:none;border-color:var(--focus);box-shadow:0 0 0 3px rgba(13,124,114,.14);}
+  .ctl label{font-size:11.5px;font-weight:600;color:var(--ink);letter-spacing:.01em;}
+  .ctl .hint{font-weight:400;color:var(--faint);}
+  .ctl input{width:96px;font-family:"IBM Plex Mono",monospace;font-size:14px;color:var(--ink);background:var(--card);border:1px solid var(--hair-strong);border-radius:10px;padding:9px 11px;text-align:right;}
+  .ctl input:focus{outline:none;border-color:var(--focus);box-shadow:0 0 0 3px rgba(0,163,173,.16);}
   input[type=number]{-moz-appearance:textfield;}
   input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
 
-  .phone-ctl{display:flex;align-items:flex-end;gap:14px;margin-left:auto;}
-  .switch{display:inline-flex;align-items:center;gap:9px;cursor:pointer;user-select:none;font-size:12.5px;color:var(--ink);font-weight:500;}
-  .switch input{position:absolute;opacity:0;width:0;height:0;}
-  .track{width:40px;height:23px;border-radius:12px;background:var(--hair-strong);position:relative;transition:background .15s ease;flex-shrink:0;}
-  .track::after{content:"";position:absolute;top:2px;left:2px;width:19px;height:19px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.2);transition:transform .15s ease;}
-  .switch input:checked + .track{background:var(--phone);}
-  .switch input:checked + .track::after{transform:translateX(17px);}
-  .switch input:focus-visible + .track{box-shadow:0 0 0 3px rgba(194,119,59,.25);}
-  .punit{display:flex;border:1px solid var(--hair-strong);border-radius:9px;overflow:hidden;}
-  .punit button{font-family:"IBM Plex Mono",monospace;font-size:11px;border:none;background:var(--card);color:var(--muted);padding:7px 11px;cursor:pointer;}
-  .punit button + button{border-left:1px solid var(--hair);}
-  .punit button.on{background:var(--phone);color:#fff;}
-  .punit.disabled{opacity:.4;pointer-events:none;}
-
-  .tablecard{background:var(--card);border:1px solid var(--hair);border-radius:0 0 14px 14px;box-shadow:var(--shadow);overflow:hidden;}
+  .card{background:var(--card);border:1px solid var(--hair);border-radius:16px;box-shadow:var(--shadow);overflow:hidden;}
   .scroll{overflow-x:auto;}
-  table{width:100%;border-collapse:collapse;min-width:740px;}
-  thead th{
-    font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;
-    color:var(--faint);font-weight:500;text-align:right;padding:14px 14px 11px;border-bottom:1px solid var(--hair-strong);white-space:nowrap;
-  }
-  thead th.area{text-align:left;}
-  thead th.res{color:var(--case);}
-  tbody td{padding:11px 14px;border-bottom:1px solid var(--hair);text-align:right;font-variant-numeric:tabular-nums;}
-  tbody tr:last-child td{border-bottom:none;}
-  tbody tr:hover{background:var(--rowhover);}
-  td.area{text-align:left;font-weight:500;font-size:14px;white-space:nowrap;}
-  .cell-in{
-    width:72px;font-family:"IBM Plex Mono",monospace;font-size:13px;text-align:right;color:var(--ink);
-    background:var(--paper);border:1px solid var(--hair-strong);border-radius:8px;padding:7px 9px;
-  }
-  .cell-in:focus{outline:none;border-color:var(--focus);box-shadow:0 0 0 3px rgba(13,124,114,.14);background:#fff;}
-  .cell-in.phone:focus{border-color:var(--phone);box-shadow:0 0 0 3px rgba(194,119,59,.14);}
-  .avgwrap{display:inline-flex;align-items:center;gap:5px;justify-content:flex-end;}
-  .avgwrap .cell-in{width:60px;}
-  .avgwrap .u{font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--faint);}
+  table{width:100%;border-collapse:collapse;}
+  .results{min-width:640px;}
+  .results thead th{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);font-weight:500;text-align:left;padding:16px 18px 12px;border-bottom:1px solid var(--hair-strong);white-space:nowrap;}
+  .results thead th.tnum{text-align:right;}
+  .results tbody td{padding:16px 18px;border-bottom:1px solid var(--hair);vertical-align:middle;}
+  .results tbody tr:last-child td{border-bottom:none;}
+  .results tbody tr:hover{background:var(--rowhover);}
+  td.area{font-weight:600;font-size:14.5px;white-space:nowrap;width:1%;color:var(--ink);}
+  td.team{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--muted);text-align:right;width:1%;white-space:nowrap;}
+  td.day{width:100%;}
+  .day-head{display:flex;align-items:baseline;gap:9px;margin-bottom:8px;flex-wrap:wrap;}
+  .day-head .big{font-family:"Poppins",sans-serif;font-weight:600;font-size:22px;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1;}
+  .day-meta{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;}
+  .day-meta .rPct{font-weight:600;color:var(--ink);}
+  tr.over .day-head .big, tr.over .day-meta .rPct{color:var(--over);}
+  .badge{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.04em;text-transform:uppercase;color:#fff;background:var(--over);padding:2px 8px;border-radius:6px;display:none;}
+  tr.over .badge{display:inline-block;}
 
-  td.res{font-family:"IBM Plex Mono",monospace;font-size:13.5px;color:var(--case);font-weight:500;}
-  td.res .dash{color:var(--faint);font-weight:400;}
-  .util{display:flex;align-items:center;justify-content:flex-end;gap:9px;}
-  .util .pct{font-family:"IBM Plex Mono",monospace;font-size:13px;color:var(--ink);min-width:46px;text-align:right;}
-  .ubar{width:54px;height:7px;border-radius:4px;background:#EFEDE6;overflow:hidden;flex-shrink:0;}
-  .ubar > i{display:block;height:100%;background:var(--case);border-radius:4px;transition:width .35s cubic-bezier(.4,0,.2,1);}
+  .bar{display:flex;height:18px;border-radius:7px;overflow:hidden;background:var(--rest);border:1px solid var(--hair);}
+  tr.over .bar{border-color:var(--over);box-shadow:0 0 0 1px var(--over);}
+  .seg{height:100%;width:0;transition:width .4s cubic-bezier(.4,0,.2,1);}
+  .seg.cases{background:var(--cases);}
+  .seg.out{background:var(--out);}
+  .seg.inn{background:var(--inn);}
+  .seg.prod{background:var(--prod);}
+  .seg.rest{background:transparent;}
+  .split{margin-top:8px;font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums;display:flex;flex-wrap:wrap;gap:4px 14px;}
+  .split span{display:inline-flex;align-items:center;gap:6px;}
+  .split i{width:8px;height:8px;border-radius:2px;display:inline-block;}
+  .lowvol td.area::after{content:" \00B7";color:var(--prod);}
 
-  .phone-col{display:none;}
-  .show-phone .phone-col{display:table-cell;}
+  details.adjust{margin:20px 0 0;background:var(--card);border:1px solid var(--hair);border-radius:16px;box-shadow:var(--shadow);overflow:hidden;}
+  details.adjust>summary{list-style:none;cursor:pointer;padding:16px 22px;font-size:13.5px;font-weight:600;color:var(--ink);display:flex;align-items:center;gap:10px;}
+  details.adjust>summary::-webkit-details-marker{display:none;}
+  details.adjust>summary .tw{transition:transform .15s ease;color:var(--cases);}
+  details.adjust[open]>summary .tw{transform:rotate(90deg);}
+  details.adjust>summary .sh{font-weight:400;color:var(--faint);font-size:12px;}
+  .panel-note{padding:0 22px 12px;font-size:11.5px;color:var(--faint);line-height:1.5;}
+  .panel{min-width:920px;}
+  .panel thead th{font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);font-weight:500;padding:8px 10px 9px;border-bottom:1px solid var(--hair-strong);white-space:nowrap;text-align:right;}
+  .panel thead th.area{text-align:left;}
+  .panel thead tr.grp th{padding-top:12px;font-size:10px;letter-spacing:.06em;color:var(--ink);font-weight:600;text-align:center;border-bottom:none;}
+  .panel thead tr.grp th.g-cases{color:var(--cases);}
+  .panel thead tr.grp th.g-out{color:var(--out);}
+  .panel thead tr.grp th.g-in{color:var(--inn);}
+  .panel thead tr.grp th.g-prod{color:var(--prod);}
+  .panel tbody td{padding:7px 10px;border-bottom:1px solid var(--hair);text-align:right;}
+  .panel tbody tr:last-child td{border-bottom:none;}
+  .panel td.area{text-align:left;font-weight:600;font-size:13px;white-space:nowrap;}
+  .pin{width:74px;font-family:"IBM Plex Mono",monospace;font-size:12.5px;text-align:right;color:var(--ink);background:var(--paper);border:1px solid var(--hair-strong);border-radius:8px;padding:6px 8px;}
+  .pin:focus{outline:none;border-color:var(--focus);box-shadow:0 0 0 3px rgba(0,163,173,.16);background:#fff;}
+  td.g-cases{background:rgba(0,163,173,.06);}
+  td.g-out{background:rgba(46,108,181,.05);}
+  td.g-in{background:rgba(106,90,205,.05);}
+  td.g-prod{background:rgba(224,147,74,.07);}
 
-  .lowvol .area::after{content:" ·";color:var(--phone);}
+  .foot{font-size:11.5px;color:var(--faint);margin:16px 2px 0;line-height:1.6;max-width:88ch;}
+  .foot b{color:var(--muted);font-weight:600;}
 
-  .legend{display:flex;gap:18px;flex-wrap:wrap;margin:16px 2px 0;font-size:11.5px;color:var(--muted);}
-  .legend b{color:var(--ink);font-weight:500;}
-  .foot{font-size:11px;color:var(--faint);margin:14px 2px 0;line-height:1.55;max-width:82ch;}
-  .foot b{color:var(--muted);font-weight:500;}
-
-  @media (max-width:560px){
-    h1{font-size:25px;}
-    .phone-ctl{margin-left:0;width:100%;}
-    .controls{gap:16px;}
-  }
-  @media (prefers-reduced-motion:reduce){.ubar>i{transition:none;}}
+  @media (max-width:560px){ h1{font-size:26px;} }
+  @media (prefers-reduced-motion:reduce){.seg{transition:none;}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <p class="eyebrow">Quarterly case report · all sales areas</p>
-  <h1>Case-handling capacity</h1>
-  <p class="sub">Case count and average handle time per sales area, with the average hours each employee spends handling cases per working day and what share of their shift that takes. Case counts and average times are editable.</p>
-  <p class="stamp">Cases &amp; avg handle time — snapshot as of 19 June 2027</p>
+  <p class="eyebrow">DentalMonitoring &middot; CX Team Workload Model</p>
+  <h1>How full is each CX team's day?</h1>
+  <p class="sub">For every sales area, this shows the work one Customer Experience (CX) team member handles in an average day — case handling, outbound calls, inbound calls, and production tasks — and how much of their shift it fills.</p>
+  <p class="stamp">Snapshot as of 25 June 2026 &middot; figures cover a 61 working-day period</p>
 
   <noscript>
-    <div class="nojs"><b>This calculator needs JavaScript to do the math.</b> The data and input boxes show fine, but results won't update in a preview that blocks scripts. Open the file in a web browser (Chrome, Safari, Edge) and the numbers will update as you type.</div>
+    <div class="nojs"><b>This tool needs JavaScript to do the math.</b> All the data shows below, but the bars and percentages only fill in when scripts run. Open this file in a web browser (Chrome, Safari, Edge) and it works fully — updating instantly as you change any number.</div>
   </noscript>
+
+  <div class="read">
+    <h2>How to read this</h2>
+    <p>Each <b>bar is one person's average working day</b> in that region. The coloured parts show what fills the day; the empty part is time left in the shift.</p>
+    <p>The <b>percentage is how full the day is</b>. At 100% the day is completely full. <b style="color:#D24A3A">Over 100% (red)</b> means there is more work than there are hours in the shift — the team is stretched and likely needs help.</p>
+    <p class="chips">
+      <span class="chip"><i style="background:#00A3AD"></i>Case handling</span>
+      <span class="chip"><i style="background:#2E6CB5"></i>Outbound calls</span>
+      <span class="chip"><i style="background:#6A5ACD"></i>Inbound calls</span>
+      <span class="chip"><i style="background:#E0934A"></i>Production tasks</span>
+      <span class="chip"><i style="background:#E9EEF0;border:1px solid #D2DBDE"></i>Time left in shift</span>
+    </p>
+    <p>Want to test a scenario — add a person, change a shift, or update a volume? Open <b>“Adjust the numbers”</b> below the table. Everything updates as you type.</p>
+  </div>
 
   <div class="controls">
     <div class="ctl">
-      <label for="days">Working days / quarter</label>
-      <input id="days" type="number" min="1" step="1" value="57" inputmode="numeric" />
-    </div>
-    <div class="phone-ctl">
-      <label class="switch">
-        <input type="checkbox" id="phoneToggle" />
-        <span class="track"></span>
-        Add telephone time
-      </label>
-      <div class="punit disabled" id="punit" aria-label="Telephone unit">
-        <button type="button" data-pu="hours" class="on">hrs</button>
-        <button type="button" data-pu="minutes">min</button>
-      </div>
+      <label for="days">Working days in period <span class="hint">(drives the “per day” figure)</span></label>
+      <input id="days" type="number" min="1" step="1" value="61" inputmode="numeric" />
     </div>
   </div>
 
-  <div class="tablecard">
+  <div class="card">
     <div class="scroll">
-      <table id="tbl">
+      <table class="results">
         <thead>
           <tr>
             <th class="area">Sales area</th>
-            <th>Cases</th>
-            <th>Avg&nbsp;/&nbsp;case</th>
-            <th>Employees</th>
-            <th>Shift&nbsp;hr</th>
-            <th class="phone-col">Phone&nbsp;hr</th>
-            <th class="res">Hrs / emp&nbsp;·&nbsp;day</th>
-            <th class="res">% of shift</th>
+            <th class="tnum">CX team</th>
+            <th>An average CX member's day</th>
           </tr>
         </thead>
-        <tbody id="tbody">
-          <tr>
+        <tbody id="resBody">
+          <tr data-region="ANZ">
+            <td class="area">ANZ</td>
+            <td class="team"><span class="rTeam">2</span></td>
+            <td class="day">
+              <div class="day-head"><span class="rHrs big">&mdash;</span><span class="day-meta"><span class="rPct">&mdash;</span> of an <span class="rShift">8</span>h shift</span><span class="badge">Over capacity</span></div>
+              <div class="bar" aria-hidden="true">
+                <div class="seg cases"></div><div class="seg out"></div><div class="seg inn"></div><div class="seg prod"></div><div class="seg rest"></div>
+              </div>
+              <div class="split rsplit">&mdash;</div>
+            </td>
+          </tr>
+          <tr data-region="CEE">
             <td class="area">CEE</td>
-            <td><input class="cell-in count" type="number" min="0" step="1" value="965" inputmode="numeric"></td>
-            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="0.41" inputmode="decimal"><span class="u">hr</span></span></td>
-            <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
-            <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
-            <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
-            <td class="res hrs"><span class="dash">—</span></td>
-            <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
+            <td class="team"><span class="rTeam">2</span></td>
+            <td class="day">
+              <div class="day-head"><span class="rHrs big">&mdash;</span><span class="day-meta"><span class="rPct">&mdash;</span> of an <span class="rShift">8</span>h shift</span><span class="badge">Over capacity</span></div>
+              <div class="bar" aria-hidden="true">
+                <div class="seg cases"></div><div class="seg out"></div><div class="seg inn"></div><div class="seg prod"></div><div class="seg rest"></div>
+              </div>
+              <div class="split rsplit">&mdash;</div>
+            </td>
           </tr>
-          <tr>
+          <tr data-region="DACH">
             <td class="area">DACH</td>
-            <td><input class="cell-in count" type="number" min="0" step="1" value="890" inputmode="numeric"></td>
-            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="0.29" inputmode="decimal"><span class="u">hr</span></span></td>
-            <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
-            <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
-            <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
-            <td class="res hrs"><span class="dash">—</span></td>
-            <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
+            <td class="team"><span class="rTeam">1</span></td>
+            <td class="day">
+              <div class="day-head"><span class="rHrs big">&mdash;</span><span class="day-meta"><span class="rPct">&mdash;</span> of an <span class="rShift">8</span>h shift</span><span class="badge">Over capacity</span></div>
+              <div class="bar" aria-hidden="true">
+                <div class="seg cases"></div><div class="seg out"></div><div class="seg inn"></div><div class="seg prod"></div><div class="seg rest"></div>
+              </div>
+              <div class="split rsplit">&mdash;</div>
+            </td>
           </tr>
-          <tr>
+          <tr data-region="FRABEL">
             <td class="area">FRABEL</td>
-            <td><input class="cell-in count" type="number" min="0" step="1" value="10911" inputmode="numeric"></td>
-            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="0.07" inputmode="decimal"><span class="u">hr</span></span></td>
-            <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
-            <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
-            <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
-            <td class="res hrs"><span class="dash">—</span></td>
-            <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
+            <td class="team"><span class="rTeam">4</span></td>
+            <td class="day">
+              <div class="day-head"><span class="rHrs big">&mdash;</span><span class="day-meta"><span class="rPct">&mdash;</span> of an <span class="rShift">8</span>h shift</span><span class="badge">Over capacity</span></div>
+              <div class="bar" aria-hidden="true">
+                <div class="seg cases"></div><div class="seg out"></div><div class="seg inn"></div><div class="seg prod"></div><div class="seg rest"></div>
+              </div>
+              <div class="split rsplit">&mdash;</div>
+            </td>
           </tr>
-          <tr>
+          <tr data-region="JAPAN">
             <td class="area">JAPAN</td>
-            <td><input class="cell-in count" type="number" min="0" step="1" value="911" inputmode="numeric"></td>
-            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="0.15" inputmode="decimal"><span class="u">hr</span></span></td>
-            <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
-            <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
-            <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
-            <td class="res hrs"><span class="dash">—</span></td>
-            <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
+            <td class="team"><span class="rTeam">2</span></td>
+            <td class="day">
+              <div class="day-head"><span class="rHrs big">&mdash;</span><span class="day-meta"><span class="rPct">&mdash;</span> of an <span class="rShift">8</span>h shift</span><span class="badge">Over capacity</span></div>
+              <div class="bar" aria-hidden="true">
+                <div class="seg cases"></div><div class="seg out"></div><div class="seg inn"></div><div class="seg prod"></div><div class="seg rest"></div>
+              </div>
+              <div class="split rsplit">&mdash;</div>
+            </td>
           </tr>
-          <tr>
+          <tr data-region="Mediterranean">
             <td class="area">Mediterranean</td>
-            <td><input class="cell-in count" type="number" min="0" step="1" value="1656" inputmode="numeric"></td>
-            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="0.43" inputmode="decimal"><span class="u">hr</span></span></td>
-            <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
-            <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
-            <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
-            <td class="res hrs"><span class="dash">—</span></td>
-            <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
+            <td class="team"><span class="rTeam">2</span></td>
+            <td class="day">
+              <div class="day-head"><span class="rHrs big">&mdash;</span><span class="day-meta"><span class="rPct">&mdash;</span> of an <span class="rShift">8</span>h shift</span><span class="badge">Over capacity</span></div>
+              <div class="bar" aria-hidden="true">
+                <div class="seg cases"></div><div class="seg out"></div><div class="seg inn"></div><div class="seg prod"></div><div class="seg rest"></div>
+              </div>
+              <div class="split rsplit">&mdash;</div>
+            </td>
           </tr>
-          <tr>
+          <tr data-region="AMERICAS">
             <td class="area">AMERICAS</td>
-            <td><input class="cell-in count" type="number" min="0" step="1" value="6189" inputmode="numeric"></td>
-            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="0.08" inputmode="decimal"><span class="u">hr</span></span></td>
-            <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
-            <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
-            <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
-            <td class="res hrs"><span class="dash">—</span></td>
-            <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
+            <td class="team"><span class="rTeam">6</span></td>
+            <td class="day">
+              <div class="day-head"><span class="rHrs big">&mdash;</span><span class="day-meta"><span class="rPct">&mdash;</span> of an <span class="rShift">8</span>h shift</span><span class="badge">Over capacity</span></div>
+              <div class="bar" aria-hidden="true">
+                <div class="seg cases"></div><div class="seg out"></div><div class="seg inn"></div><div class="seg prod"></div><div class="seg rest"></div>
+              </div>
+              <div class="split rsplit">&mdash;</div>
+            </td>
           </tr>
-          <tr>
+          <tr data-region="SEA">
             <td class="area">SEA</td>
-            <td><input class="cell-in count" type="number" min="0" step="1" value="823" inputmode="numeric"></td>
-            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="0.23" inputmode="decimal"><span class="u">hr</span></span></td>
-            <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
-            <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
-            <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
-            <td class="res hrs"><span class="dash">—</span></td>
-            <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
+            <td class="team"><span class="rTeam">2</span></td>
+            <td class="day">
+              <div class="day-head"><span class="rHrs big">&mdash;</span><span class="day-meta"><span class="rPct">&mdash;</span> of an <span class="rShift">8</span>h shift</span><span class="badge">Over capacity</span></div>
+              <div class="bar" aria-hidden="true">
+                <div class="seg cases"></div><div class="seg out"></div><div class="seg inn"></div><div class="seg prod"></div><div class="seg rest"></div>
+              </div>
+              <div class="split rsplit">&mdash;</div>
+            </td>
           </tr>
-          <tr class="lowvol">
+          <tr data-region="Turkey" class="lowvol">
             <td class="area">Turkey</td>
-            <td><input class="cell-in count" type="number" min="0" step="1" value="2" inputmode="numeric"></td>
-            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="19.25" inputmode="decimal"><span class="u">hr</span></span></td>
-            <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
-            <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
-            <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
-            <td class="res hrs"><span class="dash">—</span></td>
-            <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
+            <td class="team"><span class="rTeam">1</span></td>
+            <td class="day">
+              <div class="day-head"><span class="rHrs big">&mdash;</span><span class="day-meta"><span class="rPct">&mdash;</span> of an <span class="rShift">8</span>h shift</span><span class="badge">Over capacity</span></div>
+              <div class="bar" aria-hidden="true">
+                <div class="seg cases"></div><div class="seg out"></div><div class="seg inn"></div><div class="seg prod"></div><div class="seg rest"></div>
+              </div>
+              <div class="split rsplit">&mdash;</div>
+            </td>
           </tr>
-          <tr>
+          <tr data-region="UKI">
             <td class="area">UKI</td>
-            <td><input class="cell-in count" type="number" min="0" step="1" value="2733" inputmode="numeric"></td>
-            <td><span class="avgwrap"><input class="cell-in avg" type="number" min="0" step="0.01" value="0.25" inputmode="decimal"><span class="u">hr</span></span></td>
-            <td><input class="cell-in emp" type="number" min="1" step="1" placeholder="—" inputmode="numeric"></td>
-            <td><input class="cell-in shift" type="number" min="0.5" step="0.5" value="8" inputmode="decimal"></td>
-            <td class="phone-col"><input class="cell-in phone" type="number" min="0" step="any" placeholder="—" inputmode="decimal"></td>
-            <td class="res hrs"><span class="dash">—</span></td>
-            <td class="res"><div class="util"><span class="pct">—</span><span class="ubar"><i style="width:0"></i></span></div></td>
+            <td class="team"><span class="rTeam">3</span></td>
+            <td class="day">
+              <div class="day-head"><span class="rHrs big">&mdash;</span><span class="day-meta"><span class="rPct">&mdash;</span> of an <span class="rShift">8</span>h shift</span><span class="badge">Over capacity</span></div>
+              <div class="bar" aria-hidden="true">
+                <div class="seg cases"></div><div class="seg out"></div><div class="seg inn"></div><div class="seg prod"></div><div class="seg rest"></div>
+              </div>
+              <div class="split rsplit">&mdash;</div>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
 
-  <div class="legend">
-    <span><b>Hrs / emp · day</b> = cases × avg ÷ working days ÷ employees</span>
-    <span><b>% of shift</b> = that load ÷ the region's shift length</span>
-  </div>
+  <details class="adjust" id="adjust" open>
+    <summary><span class="tw">&#9656;</span> Adjust the numbers <span class="sh">— employees, shifts, volumes &amp; average times (prefilled from the report)</span></summary>
+    <div class="panel-note">Everything here is editable. Average call times are <b>minutes per call</b>; production time is <b>seconds per task</b>. Change any figure and the bars above update instantly.</div>
+    <div class="scroll">
+      <table class="panel">
+        <thead>
+          <tr class="grp">
+            <th class="area"></th>
+            <th class="g-cases" colspan="2">Case handling</th>
+            <th class="g-out" colspan="2">Outbound calls</th>
+            <th class="g-in" colspan="2">Inbound calls</th>
+            <th class="g-prod" colspan="2">Production tasks</th>
+            <th colspan="2">Team</th>
+          </tr>
+          <tr>
+            <th class="area">Sales area</th>
+            <th>Cases</th><th>Avg hr</th>
+            <th>Calls</th><th>Avg min</th>
+            <th>Calls</th><th>Avg min</th>
+            <th>Tasks</th><th>Sec/task</th>
+            <th>People</th><th>Shift hr</th>
+          </tr>
+        </thead>
+        <tbody id="panelBody">
+          <tr data-region="ANZ">
+            <td class="area">ANZ</td>
+            <td class="g-cases"><input class="pin caseCount" type="number" min="0" step="1" value="803"></td>
+            <td class="g-cases"><input class="pin caseAvg" type="number" min="0" step="0.01" value="0.07"></td>
+            <td class="g-out"><input class="pin obCalls" type="number" min="0" step="1" value="55"></td>
+            <td class="g-out"><input class="pin obAvg" type="number" min="0" step="0.01" value="2.12"></td>
+            <td class="g-in"><input class="pin ibCalls" type="number" min="0" step="1" value="137"></td>
+            <td class="g-in"><input class="pin ibAvg" type="number" min="0" step="0.01" value="3.5"></td>
+            <td class="g-prod"><input class="pin prodTasks" type="number" min="0" step="1" value="1824"></td>
+            <td class="g-prod"><input class="pin prodSec" type="number" min="0" step="1" value="45"></td>
+            <td class="g-team"><input class="pin team" type="number" min="1" step="1" value="2"></td>
+            <td class="g-team"><input class="pin shift" type="number" min="0.5" step="0.5" value="8"></td>
+          </tr>
+          <tr data-region="CEE">
+            <td class="area">CEE</td>
+            <td class="g-cases"><input class="pin caseCount" type="number" min="0" step="1" value="1036"></td>
+            <td class="g-cases"><input class="pin caseAvg" type="number" min="0" step="0.01" value="0.47"></td>
+            <td class="g-out"><input class="pin obCalls" type="number" min="0" step="1" value="10"></td>
+            <td class="g-out"><input class="pin obAvg" type="number" min="0" step="0.01" value="2.1"></td>
+            <td class="g-in"><input class="pin ibCalls" type="number" min="0" step="1" value="35"></td>
+            <td class="g-in"><input class="pin ibAvg" type="number" min="0" step="0.01" value="1.56"></td>
+            <td class="g-prod"><input class="pin prodTasks" type="number" min="0" step="1" value="1113"></td>
+            <td class="g-prod"><input class="pin prodSec" type="number" min="0" step="1" value="45"></td>
+            <td class="g-team"><input class="pin team" type="number" min="1" step="1" value="2"></td>
+            <td class="g-team"><input class="pin shift" type="number" min="0.5" step="0.5" value="8"></td>
+          </tr>
+          <tr data-region="DACH">
+            <td class="area">DACH</td>
+            <td class="g-cases"><input class="pin caseCount" type="number" min="0" step="1" value="1216"></td>
+            <td class="g-cases"><input class="pin caseAvg" type="number" min="0" step="0.01" value="0.58"></td>
+            <td class="g-out"><input class="pin obCalls" type="number" min="0" step="1" value="195"></td>
+            <td class="g-out"><input class="pin obAvg" type="number" min="0" step="0.01" value="1.14"></td>
+            <td class="g-in"><input class="pin ibCalls" type="number" min="0" step="1" value="128"></td>
+            <td class="g-in"><input class="pin ibAvg" type="number" min="0" step="0.01" value="3.9"></td>
+            <td class="g-prod"><input class="pin prodTasks" type="number" min="0" step="1" value="2301"></td>
+            <td class="g-prod"><input class="pin prodSec" type="number" min="0" step="1" value="45"></td>
+            <td class="g-team"><input class="pin team" type="number" min="1" step="1" value="1"></td>
+            <td class="g-team"><input class="pin shift" type="number" min="0.5" step="0.5" value="8"></td>
+          </tr>
+          <tr data-region="FRABEL">
+            <td class="area">FRABEL</td>
+            <td class="g-cases"><input class="pin caseCount" type="number" min="0" step="1" value="12439"></td>
+            <td class="g-cases"><input class="pin caseAvg" type="number" min="0" step="0.01" value="0.1"></td>
+            <td class="g-out"><input class="pin obCalls" type="number" min="0" step="1" value="11526"></td>
+            <td class="g-out"><input class="pin obAvg" type="number" min="0" step="0.01" value="0.3" title="given as 18 sec/call, shown here in minutes"></td>
+            <td class="g-in"><input class="pin ibCalls" type="number" min="0" step="1" value="1473"></td>
+            <td class="g-in"><input class="pin ibAvg" type="number" min="0" step="0.01" value="2.15"></td>
+            <td class="g-prod"><input class="pin prodTasks" type="number" min="0" step="1" value="4197"></td>
+            <td class="g-prod"><input class="pin prodSec" type="number" min="0" step="1" value="45"></td>
+            <td class="g-team"><input class="pin team" type="number" min="1" step="1" value="4"></td>
+            <td class="g-team"><input class="pin shift" type="number" min="0.5" step="0.5" value="8"></td>
+          </tr>
+          <tr data-region="JAPAN">
+            <td class="area">JAPAN</td>
+            <td class="g-cases"><input class="pin caseCount" type="number" min="0" step="1" value="967"></td>
+            <td class="g-cases"><input class="pin caseAvg" type="number" min="0" step="0.01" value="0.16"></td>
+            <td class="g-out"><input class="pin obCalls" type="number" min="0" step="1" value="25"></td>
+            <td class="g-out"><input class="pin obAvg" type="number" min="0" step="0.01" value="2.8"></td>
+            <td class="g-in"><input class="pin ibCalls" type="number" min="0" step="1" value="113"></td>
+            <td class="g-in"><input class="pin ibAvg" type="number" min="0" step="0.01" value="4.45"></td>
+            <td class="g-prod"><input class="pin prodTasks" type="number" min="0" step="1" value="588"></td>
+            <td class="g-prod"><input class="pin prodSec" type="number" min="0" step="1" value="45"></td>
+            <td class="g-team"><input class="pin team" type="number" min="1" step="1" value="2"></td>
+            <td class="g-team"><input class="pin shift" type="number" min="0.5" step="0.5" value="8"></td>
+          </tr>
+          <tr data-region="Mediterranean">
+            <td class="area">Mediterranean</td>
+            <td class="g-cases"><input class="pin caseCount" type="number" min="0" step="1" value="1848"></td>
+            <td class="g-cases"><input class="pin caseAvg" type="number" min="0" step="0.01" value="0.41"></td>
+            <td class="g-out"><input class="pin obCalls" type="number" min="0" step="1" value="314"></td>
+            <td class="g-out"><input class="pin obAvg" type="number" min="0" step="0.01" value="2.37"></td>
+            <td class="g-in"><input class="pin ibCalls" type="number" min="0" step="1" value="104"></td>
+            <td class="g-in"><input class="pin ibAvg" type="number" min="0" step="0.01" value="5.54"></td>
+            <td class="g-prod"><input class="pin prodTasks" type="number" min="0" step="1" value="1116"></td>
+            <td class="g-prod"><input class="pin prodSec" type="number" min="0" step="1" value="45"></td>
+            <td class="g-team"><input class="pin team" type="number" min="1" step="1" value="2"></td>
+            <td class="g-team"><input class="pin shift" type="number" min="0.5" step="0.5" value="8"></td>
+          </tr>
+          <tr data-region="AMERICAS">
+            <td class="area">AMERICAS</td>
+            <td class="g-cases"><input class="pin caseCount" type="number" min="0" step="1" value="6667"></td>
+            <td class="g-cases"><input class="pin caseAvg" type="number" min="0" step="0.01" value="0.08"></td>
+            <td class="g-out"><input class="pin obCalls" type="number" min="0" step="1" value="251"></td>
+            <td class="g-out"><input class="pin obAvg" type="number" min="0" step="0.01" value="2.55"></td>
+            <td class="g-in"><input class="pin ibCalls" type="number" min="0" step="1" value="927"></td>
+            <td class="g-in"><input class="pin ibAvg" type="number" min="0" step="0.01" value="5.8"></td>
+            <td class="g-prod"><input class="pin prodTasks" type="number" min="0" step="1" value="12198"></td>
+            <td class="g-prod"><input class="pin prodSec" type="number" min="0" step="1" value="45"></td>
+            <td class="g-team"><input class="pin team" type="number" min="1" step="1" value="6"></td>
+            <td class="g-team"><input class="pin shift" type="number" min="0.5" step="0.5" value="8"></td>
+          </tr>
+          <tr data-region="SEA">
+            <td class="area">SEA</td>
+            <td class="g-cases"><input class="pin caseCount" type="number" min="0" step="1" value="854"></td>
+            <td class="g-cases"><input class="pin caseAvg" type="number" min="0" step="0.01" value="0.23"></td>
+            <td class="g-out"><input class="pin obCalls" type="number" min="0" step="1" value="0"></td>
+            <td class="g-out"><input class="pin obAvg" type="number" min="0" step="0.01" value="0"></td>
+            <td class="g-in"><input class="pin ibCalls" type="number" min="0" step="1" value="0"></td>
+            <td class="g-in"><input class="pin ibAvg" type="number" min="0" step="0.01" value="0"></td>
+            <td class="g-prod"><input class="pin prodTasks" type="number" min="0" step="1" value="243"></td>
+            <td class="g-prod"><input class="pin prodSec" type="number" min="0" step="1" value="45"></td>
+            <td class="g-team"><input class="pin team" type="number" min="1" step="1" value="2"></td>
+            <td class="g-team"><input class="pin shift" type="number" min="0.5" step="0.5" value="8"></td>
+          </tr>
+          <tr data-region="Turkey">
+            <td class="area">Turkey</td>
+            <td class="g-cases"><input class="pin caseCount" type="number" min="0" step="1" value="2"></td>
+            <td class="g-cases"><input class="pin caseAvg" type="number" min="0" step="0.01" value="19.25"></td>
+            <td class="g-out"><input class="pin obCalls" type="number" min="0" step="1" value="0"></td>
+            <td class="g-out"><input class="pin obAvg" type="number" min="0" step="0.01" value="0"></td>
+            <td class="g-in"><input class="pin ibCalls" type="number" min="0" step="1" value="0"></td>
+            <td class="g-in"><input class="pin ibAvg" type="number" min="0" step="0.01" value="0"></td>
+            <td class="g-prod"><input class="pin prodTasks" type="number" min="0" step="1" value="42"></td>
+            <td class="g-prod"><input class="pin prodSec" type="number" min="0" step="1" value="45"></td>
+            <td class="g-team"><input class="pin team" type="number" min="1" step="1" value="1"></td>
+            <td class="g-team"><input class="pin shift" type="number" min="0.5" step="0.5" value="8"></td>
+          </tr>
+          <tr data-region="UKI">
+            <td class="area">UKI</td>
+            <td class="g-cases"><input class="pin caseCount" type="number" min="0" step="1" value="3122"></td>
+            <td class="g-cases"><input class="pin caseAvg" type="number" min="0" step="0.01" value="0.24"></td>
+            <td class="g-out"><input class="pin obCalls" type="number" min="0" step="1" value="1562"></td>
+            <td class="g-out"><input class="pin obAvg" type="number" min="0" step="0.01" value="0.27" title="given as 16 sec/call, shown here in minutes"></td>
+            <td class="g-in"><input class="pin ibCalls" type="number" min="0" step="1" value="200"></td>
+            <td class="g-in"><input class="pin ibAvg" type="number" min="0" step="0.01" value="3.5"></td>
+            <td class="g-prod"><input class="pin prodTasks" type="number" min="0" step="1" value="1992"></td>
+            <td class="g-prod"><input class="pin prodSec" type="number" min="0" step="1" value="45"></td>
+            <td class="g-team"><input class="pin team" type="number" min="1" step="1" value="3"></td>
+            <td class="g-team"><input class="pin shift" type="number" min="0.5" step="0.5" value="8"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </details>
+
   <p class="foot">
-    Source: <b>case count</b> and <b>average handle time</b> per sales area, a snapshot as of <b>19 June 2027</b>; average time is in <b>hours</b>. Both are editable and prefilled from the report.
-    Shift defaults to <b>8h</b> per region — set the real length where it differs. Telephone time, when switched on, is the region's <b>quarterly total</b> talk time and adds on top of case time.
-    Regions marked <b style="color:#C2773B">·</b> have very low case volume, so per-employee figures there are not meaningful.
+    <b>How each bar is built:</b> for each work type, total time = volume &times; average time. The four are added up, divided by working days, then divided by the number of people — giving the hours one person handles per day. That is compared to their shift to get the percentage. The headline is in <b>hours</b>; the split beneath each bar shows <b>minutes per person per day</b> for each activity.<br>
+    <b>Assumptions &amp; notes:</b> Production tasks are estimated at <b>45 seconds each</b> (an average, not measured per task — change it in the panel if you have a firmer number). Call times are average minutes per call; Frabel and UKI outbound were reported in seconds and converted. SEA and Turkey had no call activity, shown as zero. Turkey (<b style="color:#E0934A">&middot;</b>) has tiny case volume, so its per-person figure isn't meaningful. All volumes are assumed to cover the same <b>61 working-day</b> period as the case data — change “working days” above if the period differs.
   </p>
 </div>
 
 <script>
 (function(){
   var $ = function(id){return document.getElementById(id);};
-  var state = {phoneOn:false, phoneUnit:"hours"};
-  var tbody = $("tbody");
+  var panel = $("panelBody");
+  var resRows = {};
+  Array.prototype.forEach.call($("resBody").children, function(tr){ resRows[tr.getAttribute("data-region")] = tr; });
 
-  function fmtLoad(h){
-    if(!isFinite(h)||h<=0) return null;
-    if(h < 1){ return Math.round(h*60) + " min"; }
-    return (Math.round(h*100)/100) + " hr";
-  }
+  function num(el){ var v = parseFloat(el.value); return isNaN(v)?0:v; }
+  function h1(x){ return (Math.round(x*10)/10).toLocaleString(undefined,{minimumFractionDigits:1,maximumFractionDigits:1}); }
+  function mn(x){ return Math.round(x*60).toLocaleString(); }
 
   function recompute(){
     var days = parseFloat($("days").value);
-    var validDays = !isNaN(days) && days>0;
-    var pf = state.phoneUnit==="minutes" ? 1/60 : 1;
+    if(isNaN(days)||days<=0) days = NaN;
 
-    Array.prototype.forEach.call(tbody.children, function(tr){
-      var avg = parseFloat(tr.querySelector(".avg").value);
-      var count = parseFloat(tr.querySelector(".count").value);
-      var emp = parseFloat(tr.querySelector(".emp").value);
-      var shift = parseFloat(tr.querySelector(".shift").value);
-      var phoneRaw = parseFloat(tr.querySelector(".phone").value);
-      var phoneH = (state.phoneOn && !isNaN(phoneRaw) && phoneRaw>0) ? phoneRaw*pf : 0;
+    Array.prototype.forEach.call(panel.children, function(prow){
+      var key = prow.getAttribute("data-region");
+      var q = function(c){ return prow.querySelector("."+c); };
+      var caseH = num(q("caseCount")) * num(q("caseAvg"));
+      var outH  = num(q("obCalls")) * num(q("obAvg"))/60;
+      var inH   = num(q("ibCalls")) * num(q("ibAvg"))/60;
+      var prodH = num(q("prodTasks")) * num(q("prodSec"))/3600;
+      var team  = num(q("team"));
+      var shift = num(q("shift"));
 
-      var hrsCell = tr.querySelector(".hrs");
-      var pctCell = tr.querySelector(".pct");
-      var ubar = tr.querySelector(".ubar > i");
+      var rr = resRows[key];
+      if(!rr) return;
+      rr.querySelector(".rTeam").textContent = team>0 ? team : "—";
+      rr.querySelector(".rShift").textContent = shift>0 ? (shift % 1 ? shift : shift.toFixed(0)) : "—";
 
-      var validBase = !isNaN(avg) && avg>=0 && !isNaN(count) && count>=0;
-      var totalH = (validBase ? avg*count : 0) + phoneH;
+      var segC = rr.querySelector(".seg.cases"), segO = rr.querySelector(".seg.out"),
+          segI = rr.querySelector(".seg.inn"), segP = rr.querySelector(".seg.prod"),
+          segR = rr.querySelector(".seg.rest");
 
-      if(validDays && validBase && !isNaN(emp) && emp>0){
-        var perEmpDay = (totalH/days)/emp;
-        var s = fmtLoad(perEmpDay);
-        hrsCell.innerHTML = s ? s : '<span class="dash">0</span>';
-        if(!isNaN(shift) && shift>0){
-          var pct = perEmpDay/shift*100;
-          pctCell.textContent = (Math.round(pct*10)/10)+"%";
-          ubar.style.width = Math.max(0,Math.min(100,pct))+"%";
-        } else { pctCell.textContent="—"; ubar.style.width="0"; }
-      } else {
-        hrsCell.innerHTML = '<span class="dash">—</span>';
-        pctCell.textContent="—"; ubar.style.width="0";
+      if(isNaN(days) || team<=0 || shift<=0){
+        rr.querySelector(".rHrs").textContent = "—";
+        rr.querySelector(".rPct").textContent = "—";
+        rr.classList.remove("over");
+        [segC,segO,segI,segP].forEach(function(s){s.style.width="0";}); segR.style.width="100%";
+        rr.querySelector(".rsplit").textContent = "Enter team size and shift to see this region.";
+        return;
       }
+
+      var cPer = caseH/days/team, oPer = outH/days/team, iPer = inH/days/team, pPer = prodH/days/team;
+      var totPer = cPer+oPer+iPer+pPer;
+      var pct = totPer/shift*100;
+
+      rr.querySelector(".rHrs").textContent = h1(totPer)+" hrs";
+      rr.querySelector(".rPct").textContent = Math.round(pct)+"%";
+      rr.classList.toggle("over", pct>100);
+
+      var denom = pct>100 ? totPer : shift;
+      function w(x){ return Math.max(0, x/denom*100); }
+      segC.style.width = w(cPer)+"%";
+      segO.style.width = w(oPer)+"%";
+      segI.style.width = w(iPer)+"%";
+      segP.style.width = w(pPer)+"%";
+      segR.style.width = pct>100 ? "0%" : Math.max(0,(shift-totPer)/shift*100)+"%";
+
+      segC.title = "Cases "+mn(cPer)+" min"; segO.title="Outbound "+mn(oPer)+" min";
+      segI.title = "Inbound "+mn(iPer)+" min"; segP.title="Production "+mn(pPer)+" min";
+
+      rr.querySelector(".rsplit").innerHTML =
+        '<span><i style="background:#00A3AD"></i>Cases '+mn(cPer)+' min</span>'+
+        '<span><i style="background:#2E6CB5"></i>Outbound '+mn(oPer)+' min</span>'+
+        '<span><i style="background:#6A5ACD"></i>Inbound '+mn(iPer)+' min</span>'+
+        '<span><i style="background:#E0934A"></i>Production '+mn(pPer)+' min</span>';
     });
   }
 
   $("days").addEventListener("input", recompute);
-  tbody.addEventListener("input", recompute);
-  $("phoneToggle").addEventListener("change", function(){
-    state.phoneOn = this.checked;
-    $("tbl").classList.toggle("show-phone", state.phoneOn);
-    $("punit").classList.toggle("disabled", !state.phoneOn);
-    recompute();
-  });
-  Array.prototype.forEach.call($("punit").querySelectorAll("button"), function(b){
-    b.addEventListener("click", function(){
-      if(!state.phoneOn) return;
-      state.phoneUnit = b.getAttribute("data-pu");
-      $("punit").querySelectorAll("button").forEach(function(x){x.classList.remove("on");});
-      b.classList.add("on"); recompute();
-    });
-  });
-
+  panel.addEventListener("input", recompute);
   recompute();
 })();
 </script>
