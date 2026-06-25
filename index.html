@@ -119,7 +119,7 @@
   <p class="eyebrow">DentalMonitoring &middot; CX Team Workload Model</p>
   <h1>How full is each CX team's day?</h1>
   <p class="sub">For every sales area, this shows the work one Customer Experience (CX) team member handles in an average day — case handling, outbound calls, inbound calls, and production tasks — and how much of their shift it fills.</p>
-  <p class="stamp">Snapshot as of 25 June 2026 &middot; figures cover a 61 working-day period</p>
+  <p class="stamp">Snapshot as of 25 June 2026 &middot; working days set per region (see panel)</p>
 
   <noscript>
     <div class="nojs"><b>This tool needs JavaScript to do the math.</b> All the data shows below, but the bars and percentages only fill in when scripts run. Open this file in a web browser (Chrome, Safari, Edge) and it works fully — updating instantly as you change any number.</div>
@@ -137,13 +137,6 @@
       <span class="chip"><i style="background:#E9EEF0;border:1px solid #D2DBDE"></i>Time left in shift</span>
     </p>
     <p>Want to test a scenario — add a person, change a shift, or update a volume? Open <b>“Adjust the numbers”</b> below the table. Everything updates as you type.</p>
-  </div>
-
-  <div class="controls">
-    <div class="ctl">
-      <label for="days">Working days — set all regions <span class="hint">(or override per region below)</span></label>
-      <input id="days" type="number" min="1" step="1" value="61" inputmode="numeric" />
-    </div>
   </div>
 
   <div class="card">
@@ -443,7 +436,7 @@
 
   <p class="foot">
     <b>How each bar is built:</b> for each work type, total time = volume &times; average time. The four are added up, divided by working days, then divided by the number of people — giving the hours one person handles per day. That is compared to their shift to get the percentage. The headline is in <b>hours</b>; the split beneath each bar shows <b>minutes per person per day</b> for each activity.<br>
-    <b>Assumptions &amp; notes:</b> Production tasks are estimated at <b>45 seconds each</b> (an average, not measured per task — change it in the panel if you have a firmer number). Call times are average minutes per call; Frabel and UKI outbound were reported in seconds and converted. SEA and Turkey had no call activity, shown as zero. Turkey (<b style="color:#E0934A">&middot;</b>) has tiny case volume, so its per-person figure isn't meaningful. All volumes are assumed to cover the same period as the case data. <b>Working days are set per region</b> (default 61) since local holidays differ — use the box at the top to set them all at once, or override any single region in the panel.
+    <b>Assumptions &amp; notes:</b> Production tasks are estimated at <b>45 seconds each</b> (an average, not measured per task — change it in the panel if you have a firmer number). Call times are average minutes per call; Frabel and UKI outbound were reported in seconds and converted. SEA and Turkey had no call activity, shown as zero. Turkey (<b style="color:#E0934A">&middot;</b>) has tiny case volume, so its per-person figure isn't meaningful. All volumes are assumed to cover the same period as the case data. <b>Working days are set per region</b> (local holidays differ) — edit any region's “Work days” in the panel.
   </p>
 </div>
 
@@ -515,11 +508,6 @@
     });
   }
 
-  $("days").addEventListener("input", function(){
-    var v = $("days").value;
-    Array.prototype.forEach.call(panel.querySelectorAll(".days"), function(el){ el.value = v; });
-    recompute();
-  });
   panel.addEventListener("input", recompute);
   recompute();
 })();
