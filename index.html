@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Team Workload by Sales Area</title>
+<title>CX Team Workload &middot; DentalMonitoring</title>
+<link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNyIgZmlsbD0iIzAwQTNBRCIvPjxyZWN0IHg9IjYuNSIgeT0iMTYiIHdpZHRoPSI0LjUiIGhlaWdodD0iOSIgcng9IjEuNSIgZmlsbD0iI2ZmZmZmZiIvPjxyZWN0IHg9IjEzLjc1IiB5PSIxMSIgd2lkdGg9IjQuNSIgaGVpZ2h0PSIxNCIgcng9IjEuNSIgZmlsbD0iI2ZmZmZmZiIvPjxyZWN0IHg9IjIxIiB5PSI3IiB3aWR0aD0iNC41IiBoZWlnaHQ9IjE4IiByeD0iMS41IiBmaWxsPSIjZmZmZmZmIi8+PC9zdmc+" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
@@ -104,6 +105,7 @@
   td.g-out{background:rgba(46,108,181,.05);}
   td.g-in{background:rgba(106,90,205,.05);}
   td.g-prod{background:rgba(224,147,74,.07);}
+  td.g-days{background:rgba(20,35,46,.035);}
 
   .foot{font-size:11.5px;color:var(--faint);margin:16px 2px 0;line-height:1.6;max-width:88ch;}
   .foot b{color:var(--muted);font-weight:600;}
@@ -139,7 +141,7 @@
 
   <div class="controls">
     <div class="ctl">
-      <label for="days">Working days in period <span class="hint">(drives the “per day” figure)</span></label>
+      <label for="days">Working days — set all regions <span class="hint">(or override per region below)</span></label>
       <input id="days" type="number" min="1" step="1" value="61" inputmode="numeric" />
     </div>
   </div>
@@ -282,7 +284,7 @@
             <th class="g-out" colspan="2">Outbound calls</th>
             <th class="g-in" colspan="2">Inbound calls</th>
             <th class="g-prod" colspan="2">Production tasks</th>
-            <th colspan="2">Team</th>
+            <th colspan="3">Team &amp; period</th>
           </tr>
           <tr>
             <th class="area">Sales area</th>
@@ -290,7 +292,7 @@
             <th>Calls</th><th>Avg min</th>
             <th>Calls</th><th>Avg min</th>
             <th>Tasks</th><th>Sec/task</th>
-            <th>People</th><th>Shift hr</th>
+            <th>People</th><th>Shift hr</th><th>Work days</th>
           </tr>
         </thead>
         <tbody id="panelBody">
@@ -306,6 +308,7 @@
             <td class="g-prod"><input class="pin prodSec" type="number" min="0" step="1" value="45"></td>
             <td class="g-team"><input class="pin team" type="number" min="1" step="1" value="2"></td>
             <td class="g-team"><input class="pin shift" type="number" min="0.5" step="0.5" value="8"></td>
+            <td class="g-days"><input class="pin days" type="number" min="1" step="1" value="61"></td>
           </tr>
           <tr data-region="CEE">
             <td class="area">CEE</td>
@@ -319,6 +322,7 @@
             <td class="g-prod"><input class="pin prodSec" type="number" min="0" step="1" value="45"></td>
             <td class="g-team"><input class="pin team" type="number" min="1" step="1" value="2"></td>
             <td class="g-team"><input class="pin shift" type="number" min="0.5" step="0.5" value="8"></td>
+            <td class="g-days"><input class="pin days" type="number" min="1" step="1" value="61"></td>
           </tr>
           <tr data-region="DACH">
             <td class="area">DACH</td>
@@ -332,6 +336,7 @@
             <td class="g-prod"><input class="pin prodSec" type="number" min="0" step="1" value="45"></td>
             <td class="g-team"><input class="pin team" type="number" min="1" step="1" value="1"></td>
             <td class="g-team"><input class="pin shift" type="number" min="0.5" step="0.5" value="8"></td>
+            <td class="g-days"><input class="pin days" type="number" min="1" step="1" value="61"></td>
           </tr>
           <tr data-region="FRABEL">
             <td class="area">FRABEL</td>
@@ -345,6 +350,7 @@
             <td class="g-prod"><input class="pin prodSec" type="number" min="0" step="1" value="45"></td>
             <td class="g-team"><input class="pin team" type="number" min="1" step="1" value="4"></td>
             <td class="g-team"><input class="pin shift" type="number" min="0.5" step="0.5" value="8"></td>
+            <td class="g-days"><input class="pin days" type="number" min="1" step="1" value="61"></td>
           </tr>
           <tr data-region="JAPAN">
             <td class="area">JAPAN</td>
@@ -358,6 +364,7 @@
             <td class="g-prod"><input class="pin prodSec" type="number" min="0" step="1" value="45"></td>
             <td class="g-team"><input class="pin team" type="number" min="1" step="1" value="2"></td>
             <td class="g-team"><input class="pin shift" type="number" min="0.5" step="0.5" value="8"></td>
+            <td class="g-days"><input class="pin days" type="number" min="1" step="1" value="61"></td>
           </tr>
           <tr data-region="Mediterranean">
             <td class="area">Mediterranean</td>
@@ -371,6 +378,7 @@
             <td class="g-prod"><input class="pin prodSec" type="number" min="0" step="1" value="45"></td>
             <td class="g-team"><input class="pin team" type="number" min="1" step="1" value="2"></td>
             <td class="g-team"><input class="pin shift" type="number" min="0.5" step="0.5" value="8"></td>
+            <td class="g-days"><input class="pin days" type="number" min="1" step="1" value="61"></td>
           </tr>
           <tr data-region="AMERICAS">
             <td class="area">AMERICAS</td>
@@ -384,6 +392,7 @@
             <td class="g-prod"><input class="pin prodSec" type="number" min="0" step="1" value="45"></td>
             <td class="g-team"><input class="pin team" type="number" min="1" step="1" value="6"></td>
             <td class="g-team"><input class="pin shift" type="number" min="0.5" step="0.5" value="8"></td>
+            <td class="g-days"><input class="pin days" type="number" min="1" step="1" value="61"></td>
           </tr>
           <tr data-region="SEA">
             <td class="area">SEA</td>
@@ -397,6 +406,7 @@
             <td class="g-prod"><input class="pin prodSec" type="number" min="0" step="1" value="45"></td>
             <td class="g-team"><input class="pin team" type="number" min="1" step="1" value="2"></td>
             <td class="g-team"><input class="pin shift" type="number" min="0.5" step="0.5" value="8"></td>
+            <td class="g-days"><input class="pin days" type="number" min="1" step="1" value="61"></td>
           </tr>
           <tr data-region="Turkey">
             <td class="area">Turkey</td>
@@ -410,6 +420,7 @@
             <td class="g-prod"><input class="pin prodSec" type="number" min="0" step="1" value="45"></td>
             <td class="g-team"><input class="pin team" type="number" min="1" step="1" value="1"></td>
             <td class="g-team"><input class="pin shift" type="number" min="0.5" step="0.5" value="8"></td>
+            <td class="g-days"><input class="pin days" type="number" min="1" step="1" value="61"></td>
           </tr>
           <tr data-region="UKI">
             <td class="area">UKI</td>
@@ -423,6 +434,7 @@
             <td class="g-prod"><input class="pin prodSec" type="number" min="0" step="1" value="45"></td>
             <td class="g-team"><input class="pin team" type="number" min="1" step="1" value="3"></td>
             <td class="g-team"><input class="pin shift" type="number" min="0.5" step="0.5" value="8"></td>
+            <td class="g-days"><input class="pin days" type="number" min="1" step="1" value="61"></td>
           </tr>
         </tbody>
       </table>
@@ -431,7 +443,7 @@
 
   <p class="foot">
     <b>How each bar is built:</b> for each work type, total time = volume &times; average time. The four are added up, divided by working days, then divided by the number of people — giving the hours one person handles per day. That is compared to their shift to get the percentage. The headline is in <b>hours</b>; the split beneath each bar shows <b>minutes per person per day</b> for each activity.<br>
-    <b>Assumptions &amp; notes:</b> Production tasks are estimated at <b>45 seconds each</b> (an average, not measured per task — change it in the panel if you have a firmer number). Call times are average minutes per call; Frabel and UKI outbound were reported in seconds and converted. SEA and Turkey had no call activity, shown as zero. Turkey (<b style="color:#E0934A">&middot;</b>) has tiny case volume, so its per-person figure isn't meaningful. All volumes are assumed to cover the same <b>61 working-day</b> period as the case data — change “working days” above if the period differs.
+    <b>Assumptions &amp; notes:</b> Production tasks are estimated at <b>45 seconds each</b> (an average, not measured per task — change it in the panel if you have a firmer number). Call times are average minutes per call; Frabel and UKI outbound were reported in seconds and converted. SEA and Turkey had no call activity, shown as zero. Turkey (<b style="color:#E0934A">&middot;</b>) has tiny case volume, so its per-person figure isn't meaningful. All volumes are assumed to cover the same period as the case data. <b>Working days are set per region</b> (default 61) since local holidays differ — use the box at the top to set them all at once, or override any single region in the panel.
   </p>
 </div>
 
@@ -447,9 +459,6 @@
   function mn(x){ return Math.round(x*60).toLocaleString(); }
 
   function recompute(){
-    var days = parseFloat($("days").value);
-    if(isNaN(days)||days<=0) days = NaN;
-
     Array.prototype.forEach.call(panel.children, function(prow){
       var key = prow.getAttribute("data-region");
       var q = function(c){ return prow.querySelector("."+c); };
@@ -459,6 +468,7 @@
       var prodH = num(q("prodTasks")) * num(q("prodSec"))/3600;
       var team  = num(q("team"));
       var shift = num(q("shift"));
+      var days  = num(q("days"));
 
       var rr = resRows[key];
       if(!rr) return;
@@ -469,7 +479,7 @@
           segI = rr.querySelector(".seg.inn"), segP = rr.querySelector(".seg.prod"),
           segR = rr.querySelector(".seg.rest");
 
-      if(isNaN(days) || team<=0 || shift<=0){
+      if(isNaN(days) || days<=0 || team<=0 || shift<=0){
         rr.querySelector(".rHrs").textContent = "—";
         rr.querySelector(".rPct").textContent = "—";
         rr.classList.remove("over");
@@ -505,7 +515,11 @@
     });
   }
 
-  $("days").addEventListener("input", recompute);
+  $("days").addEventListener("input", function(){
+    var v = $("days").value;
+    Array.prototype.forEach.call(panel.querySelectorAll(".days"), function(el){ el.value = v; });
+    recompute();
+  });
   panel.addEventListener("input", recompute);
   recompute();
 })();
